@@ -27,8 +27,8 @@ class Server_Unencrypted:
         database (Database): The database instance used for storing and retrieving user data.
     """
 
-    def __init__(self, db_path: str = 'user_database_unencrypted.sqlite3', verbose: bool = False):
-        self.database = Database(db_path)
+    def __init__(self, db_path: str = 'user_database_unencrypted.sqlite3', reset_database: bool = False, verbose: bool = False):
+        self.database = Database(db_path, reset=reset_database)
         self.verbose = verbose
 
     def register(self, email: str, password: str) -> bool:

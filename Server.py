@@ -34,8 +34,8 @@ class Server:
         hmac_hasher (HMAC): Hasher instance for creating unique hashes for user identification.
     """
 
-    def __init__(self, db_path: str = 'user_database.sqlite3', verbose: bool = False):
-        self.database = Database(db_path)
+    def __init__(self, db_path: str = 'user_database.sqlite3', reset_database: bool = False, verbose: bool = False):
+        self.database = Database(db_path, reset=reset_database)
         self.aes_cipher = AES256(Keys.AES_KEY)
         self.argon_hasher = Argon2id(Keys.ARGON_PEPPER)
         self.hmac_hasher = HMAC(Keys.HMAC_KEY)
@@ -110,7 +110,7 @@ class Server:
         if decrypt:
             database_users = self.database.get_all_users()
             line = "─" * 120
-            print(f"\n{line}\n{'📘 DATABASE (decrypted)':^120}\n{line}")
+            print(f"\n{line}\n{'DATABASE (decrypted)':^120}\n{line}")
             for i_, user_ in enumerate(database_users.values()):
                 print("\n" if i_ > 0 else "", end="")
                 print(self.__decrypt_user(user_))

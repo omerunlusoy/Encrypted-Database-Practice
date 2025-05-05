@@ -22,12 +22,15 @@ class Database:
       - list_database (print)
     """
 
-    def __init__(self, db_path: str = 'user_database.sqlite3'):
+    def __init__(self, db_path: str = 'user_database.sqlite3', reset: bool = False):
         """
         Initialize connection to SQLite database and ensure users table exists.
         :param db_path: Path to SQLite file or ':memory:' for in-memory DB.
         """
         self.db_path = db_path
+        self.conn = None
+        if reset:
+            self.delete_database()
         self.conn = sqlite3.connect(db_path)
         self.conn.row_factory = sqlite3.Row
         self._create_table()
@@ -131,7 +134,7 @@ class Database:
         """Print all user records in a formatted table-like view."""
         users = self.get_all_users().values()
         line = '─' * 80
-        print(f"\n{line}\n{'📘 DATABASE':^80}\n{line}")
+        print(f"\n{line}\n{'DATABASE':^80}\n{line}")
         for i, user in enumerate(users):
             if i > 0:
                 print()
@@ -146,4 +149,5 @@ class Database:
 
     def close(self) -> None:
         """Close the database connection."""
-        self.conn.close()
+        if self.conn is not None:
+            self.conn.close()

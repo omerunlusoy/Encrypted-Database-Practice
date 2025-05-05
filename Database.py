@@ -38,7 +38,7 @@ class Database:
 
     def list_database(self):
         line = "─" * 120
-        print(f"\n{line}\n{'📘 DATABASE':^120}\n{line}")
+        print(f"\n{line}\n{'DATABASE':^120}\n{line}")
         for i, user in enumerate(self.users.values()):
             print("\n" if i > 0 else "", end="")
             print(user)

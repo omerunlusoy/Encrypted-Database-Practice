@@ -7,8 +7,17 @@ import time
 from Server import Server
 from Server_Unencrypted import Server_Unencrypted
 
-# iterations
+# number of test entries in the databases
 N = 100
+
+# rest databases
+reset_databases = True
+
+# list databases
+list_databases = False
+
+# delete databases
+delete_databases = True
 
 # ---------------------------------------------------------------------------------------------------------------------
 #   Unencrypted Server
@@ -17,7 +26,7 @@ N = 100
 start = time.time()
 
 # initialize server
-server_unencrypted = Server_Unencrypted()
+server_unencrypted = Server_Unencrypted(reset_database=reset_databases)
 print("Unencrypted Server is initialized.")
 # test register
 successful_reg = 0
@@ -44,9 +53,12 @@ end3 = time.time()
 print("Unsuccessful login test is ended with ", (N - unsuccessful_login), "/", N, f" unsuccessful logins: \ttime taken: {end3 - end2:.6f} seconds \t({(end3 - end2) / N:.6f} per user)")
 
 # list database
-# server_unencrypted.list_database()
+if list_databases:
+    server_unencrypted.list_database()
 
-server_unencrypted.database.delete_database()
+# delete database
+if delete_databases:
+    server_unencrypted.database.delete_database()
 
 end = time.time()
 print(f"Server Unencrypted test ended for N = {N}: \t\t\t\t\t\t\t\ttime taken: {end - start:.6f} seconds \t({(end - start) / N:.6f} per user)")
@@ -59,7 +71,7 @@ print(f"Server Unencrypted test ended for N = {N}: \t\t\t\t\t\t\t\ttime taken: {
 start = time.time()
 
 # initialize server
-server = Server()
+server = Server(reset_database=reset_databases)
 print("\nEncrypted Server is initialized.")
 # test register
 successful_reg = 0
@@ -86,9 +98,12 @@ end6 = time.time()
 print("Unsuccessful login test is ended with ", (N - unsuccessful_login), "/", N, f" unsuccessful logins: \ttime taken: {end6 - end5:.6f} seconds \t({(end6 - end5) / N:.6f} per user)")
 
 # list database
-# server.list_database()
+if list_databases:
+    server.list_database()
 
-server.database.delete_database()
+# delete database
+if delete_databases:
+    server.database.delete_database()
 
 end = time.time()
 print(f"Server Encrypted test ended for N = {N}: \t\t\t\t\t\t\t\ttime taken: {end - start:.6f} seconds \t({(end - start) / N:.6f} per user)")
